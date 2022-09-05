@@ -1,2 +1,7 @@
 node_modules
 .DS_Store
+plot.py
+.env
+data.json
+candle.json
+ichimokuCloud.json
