@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Bullish Signal</title>
+  </head>
+  <body>
+    <div class="main-content">
+      {{>header}}
+      <div id="myChart">
+    </div>
+      <script id="test" data_OHLC = "{{data.data_OHLC}}" data_Ichimoku_Cloud == "{{data.ichimoku_Cloud_data}}"> </script>
+      <script src="apexcharts/dist/apexcharts.js"></script>
+      <script type="module" src="js/test.js"></script>
+
+      <div class="main-content1">
+        <div id="myChart1">
+      </div>
+        <script id="test" data_OHLC = "{{data.data_OHLC}}" data_Ichimoku_Cloud == "{{data.ichimoku_Cloud_data}}"> </script>
+        <script src="apexcharts/dist/apexcharts.js"></script>
+        <script type="module" src="js/test.js"></script>
+
+      {{>footer}}
+  </body>
+</html>

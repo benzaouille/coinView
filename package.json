@@ -1,7 +1,10 @@
 {
   "name": "coinView",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
   "repository": "https://github.com/benzaouille/coinView.git",
   "author": "benzait <benzait.ingenieur@gmail.com>",
   "license": "MIT",
@@ -9,7 +12,12 @@
     "axios": "^0.27.2"
   },
   "dependencies": {
+    "apexcharts": "^3.35.5",
+    "chart.js": "^3.9.1",
     "d3": "^7.6.1",
+    "express": "^4.18.1",
+    "handlebars": "^4.7.7",
+    "hbs": "^4.2.0",
     "plotly": "^1.0.6"
   }
 }

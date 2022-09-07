@@ -19,14 +19,7 @@ const getHistoricalOHLCData = (idCoin = 'bitcoin' , intervalAgo = 365) =>
   return new Promise((resolve, reject) => {
     axios.get(url)
       .then(response => {
-        if(response.status == 200)
-        {
-          resolve(response.data)
-        }
-        else
-        {
-          reject(response)
-        }
+        resolve(response)
       })
       .catch(error => {
         console.log(error);
@@ -35,16 +28,4 @@ const getHistoricalOHLCData = (idCoin = 'bitcoin' , intervalAgo = 365) =>
   })
 }
 
-
 module.exports = {getHistoricalOHLCData}
-
-
-/*
-console.log(historicalData["prices"][0])
-let date = new Date(historicalData["prices"][0][0] * 1000);
-let hours = date.getHours();
-let minutes = "0" + date.getMinutes();
-let seconds = "0" + date.getSeconds();
-const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-console.log(formattedTime);
-*/
