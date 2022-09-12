@@ -1,30 +1,40 @@
-const {getHistoricalOHLCData} = require('./coinStuff')
+const {getOHLC} = require('./ohlc')
+const {getAllSymbol} = require('./symbol')
 const {createIchimokuCloud} = require('./ichimoku')
 
-const extractCoinsData = async (callback) => {
-  await getHistoricalOHLCData().then((historicalData) => {
-    if(historicalData.status != 200)
-    {
-      callback(undefined, 'historicalData is undefined')
-    }
-    else
-    {
-      let coin_OHLC_data = []
-      for(info of historicalData.data)
+
+let ohlc_per_pair_map = new Map()
+
+const extractCoinsDataAndCloud = async (callback) => {
+  let usdt_symbol = []
+  try {
+    await getAllSymbol().then((allSymbol) => {
+      for(elmnt of allSymbol.data.data.ticker)
       {
-        coin_OHLC_data.push({Date : info[0], Open : info[1], High : info[2], Low : info[3], Close : info[4], Volume : info[5]})
+        if(elmnt.symbol.includes('-USDT'))
+        {
+          usdt_symbol.push(elmnt)
+        }
       }
+    }).catch((error) => {
+      console.log(error)
+    })
 
-      const {tenkan, kinjun, senkou_Span_A, senkou_Span_B} = createIchimokuCloud(coin_OHLC_data)
-      const ichimoku_Cloud_data = {tenkan : tenkan, kinjun : kinjun, senkou_Span_A : senkou_Span_A, senkou_Span_B : senkou_Span_B}
-
-      callback({ichimoku_Cloud_data : ichimoku_Cloud_data, coin_OHLC_data : coin_OHLC_data}, undefined)
+    for(elmt of usdt_symbol)
+    {
+      await getOHLC(symbol = elmt.symbol/*'UOS-USDT'*/).then((response) => {
+        const data = response.data.data.reverse()
+        const ichimoku_cloud = createIchimokuCloud(data)
+        ohlc_per_pair_map.set(/*'UOS-USDT'*/elmt.symbol, {ichimoku_cloud : ichimoku_cloud, candles : data})
+      }).catch((error) => {
+        console.log(error)
+      })
     }
-  }).catch(error => {
-    console.log(error)
-  })
+    //console.log(ohlc_per_pair_map)
+    callback(ohlc_per_pair_map, 'undefined')
+  } catch (e) {
+    callback('undefined', e)
+  }
 }
 
-
-
-module.exports = {extractCoinsData}
+module.exports = {extractCoinsDataAndCloud}
